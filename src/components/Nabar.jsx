@@ -32,7 +32,7 @@ const Navbar = () => {
           
           
           <a href='#' className='hover:border-b-2 border-solid border-customYellow'>Menu</a>
-          <Link to="/cart" className='hover:border-b-2 border-solid border-customYellow'><ShoppingCartIcon /> </Link>
+          <Link to="/cart" className='hover:border-b-2 border-solid border-customYellow'><ShoppingCartIcon className="w-6 h-6 text-white" /> </Link>
           
           <a href='#' className='hover:border-b-2 border-solid border-customYellow'>Contact Us</a>
          
@@ -63,10 +63,10 @@ const Navbar = () => {
         {isOpen && (
           <div className='md:hidden flex flex-col space-x-9'>
           
-            <a href='#' className='hover:border-b-2 border-solid border-customYellow'>Home </a>
-            <a href='#' className='hover:border-b-2 border-solid border-customYellow'>Menu</a>
-            <Link to="/cart" className='hover:border-b-2 border-solid border-customYellow'><ShoppingCartIcon /> </Link>
-            <a href='#' className='hover:border-b-2 border-solid border-customYellow'>Contact Us</a>
+            <a href='#' className='hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white'>Home </a>
+            <a href='#' className='hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white'>Menu</a>
+            <Link to="/cart" className='hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white'><ShoppingCartIcon /> </Link>
+            <a href='#' className='hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white'>Contact Us</a>
             <div className='md:hidden flex flex-col space-x-6'>
             <appkit-button /> 
 

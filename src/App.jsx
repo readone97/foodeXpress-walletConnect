@@ -20,6 +20,8 @@ import { projectId, metadata, networks, wagmiAdapter, solanaWeb3JsAdapter,config
 import Menu from "./components/Menu";
 import StoreProvider from "./Context/StoreContext";
 import Footer from "./components/Footer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Cart from "./pages/Cart";
 
 
 
@@ -60,16 +62,20 @@ const App = () => {
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
         {/* Your app components */}
         <div className="App">
-        <Router>
-      <Navbar />
-      <Hero />
+        <BrowserRouter>
+            <Navbar />
+             <Hero />
               <Menu />
-      <Routes>
+          <Routes>
+         
 
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
-      <Footer />
-    </Router>
+
+          <Route  path="/cart" element={<Cart />}  />
+
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+  
           </div>
 
     </WagmiProvider>

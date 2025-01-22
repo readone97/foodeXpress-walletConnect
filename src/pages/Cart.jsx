@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
-import { StoreContext } from "../../Context/StoreContext";
-import { useWallet, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { food_list } from "../mockDatabase";
+import {  WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { StoreContext } from "../Context/StoreContext";
 
 const Cart = () => {
-  const { cartItems, food_list, removeFromCart } = useContext(StoreContext);
+  const { cartItems, removeFromCart } = useContext(StoreContext);
   const { publicKey, sendTransaction } = useWallet();
 
   // Solana connection
