@@ -18,7 +18,7 @@ const Hero = () => {
               const userAddress = data.results[0].formatted_address;
               setAddress(userAddress);
               alert(`Location detected: ${userAddress}`);
-              // Here, you can send `userAddress` to the admin.
+              // `userAddress` to the admin.
             } else {
               alert("Unable to fetch address.");
             }
@@ -39,7 +39,7 @@ const Hero = () => {
     if (location || address) {
       const userLocation = location || address;
       alert(`Sending location to admin: ${userLocation}`);
-      // Replace this with an API call to send `userLocation` to the admin.
+      //  an API call to send `userLocation` to the admin. will get back to that
     } else {
       alert("Please enter your location or allow geolocation.");
     }
