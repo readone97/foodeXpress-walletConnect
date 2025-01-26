@@ -9,9 +9,11 @@ import {
 import React, { useContext } from 'react';
 import { StoreContext } from '../Context/StoreContext';
 import { food_list } from '../mockDatabase';
+import { Report } from 'notiflix';
 
 const Cart = () => {
-  const { cartItems, addToCart, removeFromCart } = useContext(StoreContext);
+  const { cartItems, addToCart, removeFromCart, clearCart } =
+    useContext(StoreContext);
   const { address } = useAppKitAccount();
   const { connection } = useAppKitConnection();
   const { walletProvider } = useAppKitProvider('solana');
@@ -29,6 +31,20 @@ const Cart = () => {
     0
   );
 
+  // Function to fetch SOL price
+  const getSolPrice = async () => {
+    try {
+      const response = await fetch(
+        'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd'
+      );
+      const data = await response.json();
+      return data.solana.usd;
+    } catch (error) {
+      console.error('Error fetching SOL price:', error);
+      throw new Error('Failed to fetch SOL price');
+    }
+  };
+
   // Handle payment
   const handlePayment = async () => {
     if (!address) {
@@ -37,24 +53,37 @@ const Cart = () => {
     }
 
     try {
-      // Admin wallet public key (where payment will be sent)
-      const adminWallet = new PublicKey('AdminWalletPublicKeyHere');
+      // Get current SOL price
+      const solPrice = await getSolPrice();
+      const amountInSol = total / solPrice;
+      const lamports = Math.round(amountInSol * LAMPORTS_PER_SOL);
 
-      // Convert total price to lamports
-      const lamports = total * LAMPORTS_PER_SOL;
+      // Get the latest blockhash
+      const { blockhash } = await connection.getLatestBlockhash();
 
-      // Create the transaction
-      const transaction = new Transaction().add(
+      const tx = new Transaction({
+        blockhash,
+        lastValidBlockHeight: await connection.getBlockHeight(),
+        feePayer: new PublicKey(address),
+      }).add(
         SystemProgram.transfer({
-          fromPubkey: publicKey,
-          toPubkey: adminWallet,
+          fromPubkey: new PublicKey(address),
+          toPubkey: new PublicKey(
+            '6oL9Lq3jBinKnCnPanXp9D7VbDgyRQru9BShKbbcg3se'
+          ),
           lamports,
         })
       );
 
-      // Send the transaction
-      const signature = await sendTransaction(transaction, connection);
-      alert(`Payment Successful! Transaction Signature: ${signature}`);
+      await walletProvider.signAndSendTransaction(tx);
+
+      // Clear the cart
+      clearCart();
+
+      Report.success(
+        'Payment Successful!',
+        `Paid $${total} (${amountInSol.toFixed(4)} SOL)`
+      );
     } catch (error) {
       console.error('Payment failed:', error);
       alert('Payment failed. Please try again.');

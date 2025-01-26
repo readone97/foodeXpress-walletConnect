@@ -24,6 +24,10 @@ const StoreProvider = ({ children }) => {
     });
   };
 
+  const clearCart = () => {
+    setCartItems({});
+  };
+
   const cartItemCount = Object.values(cartItems).reduce(
     (total, count) => total + count,
     0
@@ -31,7 +35,7 @@ const StoreProvider = ({ children }) => {
 
   return (
     <StoreContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, cartItemCount }}
+      value={{ cartItems, addToCart, removeFromCart, clearCart, cartItemCount }}
     >
       {children}
     </StoreContext.Provider>

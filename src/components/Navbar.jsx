@@ -1,5 +1,3 @@
-// src/components/Navbar.js
-
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import React, { useContext, useState } from 'react';
 
@@ -17,13 +15,13 @@ const Navbar = () => {
 
   return (
     <nav
-      className="absolute top-0 left-0 w-full flex justify-between text-white items-center p-5 bg-opacity-50 backdrop-blur-lg z-50"
+      className="fixed top-0 left-0 w-full flex justify-between text-white items-center p-5 bg-white bg-opacity-50 bg-cover backdrop-blur-lg z-50"
       style={{
         backgroundImage: "url('/Vector.png')",
       }}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <a href="" className="text-2xl font-bold">
+        <a href="/" className="text-2xl font-bold">
           FoodieXpress
         </a>
 
