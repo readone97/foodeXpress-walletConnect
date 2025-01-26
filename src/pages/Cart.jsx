@@ -1,16 +1,20 @@
-import React, { useContext } from "react";
-import { food_list } from "../mockDatabase";
-import {  WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { StoreContext } from "../Context/StoreContext";
+import { useAppKitConnection } from '@reown/appkit-adapter-solana/react';
+import { useAppKitAccount, useAppKitProvider } from '@reown/appkit/react';
+import {
+  LAMPORTS_PER_SOL,
+  PublicKey,
+  SystemProgram,
+  Transaction,
+} from '@solana/web3.js';
+import React, { useContext } from 'react';
+import { StoreContext } from '../Context/StoreContext';
+import { food_list } from '../mockDatabase';
 
 const Cart = () => {
   const { cartItems, removeFromCart } = useContext(StoreContext);
-  const { publicKey, sendTransaction } = useWallet();
-
-  // Solana connection
-  const connection = new Connection("https://api.mainnet-beta.solana.com");
+  const { address } = useAppKitAccount();
+  const { connection } = useAppKitConnection();
+  const { walletProvider } = useAppKitProvider('solana');
 
   // Calculate the cart details
   const cartDetails = Object.entries(cartItems).map(([id, quantity]) => {
@@ -27,14 +31,14 @@ const Cart = () => {
 
   // Handle payment
   const handlePayment = async () => {
-    if (!publicKey) {
-      alert("Connect your wallet first!");
+    if (!address) {
+      alert('Connect your wallet first!');
       return;
     }
 
     try {
       // Admin wallet public key (where payment will be sent)
-      const adminWallet = new PublicKey("AdminWalletPublicKeyHere");
+      const adminWallet = new PublicKey('AdminWalletPublicKeyHere');
 
       // Convert total price to lamports
       const lamports = total * LAMPORTS_PER_SOL;
@@ -52,13 +56,13 @@ const Cart = () => {
       const signature = await sendTransaction(transaction, connection);
       alert(`Payment Successful! Transaction Signature: ${signature}`);
     } catch (error) {
-      console.error("Payment failed:", error);
-      alert("Payment failed. Please try again.");
+      console.error('Payment failed:', error);
+      alert('Payment failed. Please try again.');
     }
   };
 
   return (
-    <div className="cart-section px-4 py-8">
+    <div className="min-h-dvh mt-20 px-4 py-8">
       <h1 className="text-2xl font-bold text-center mb-6">Your Cart</h1>
       <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
         <thead>
@@ -76,19 +80,29 @@ const Cart = () => {
               <td className="px-6 py-4">{index + 1}</td>
               <td className="px-6 py-4">
                 <img
-                  src={`http://localhost:4000/images/${item.image}`}
+                  src={item.image}
                   alt={item.name}
                   className="w-12 h-12 rounded-md"
                 />
               </td>
               <td className="px-6 py-4">{item.name}</td>
               <td className="px-6 py-4">{item.quantity}</td>
-              <td className="px-6 py-4">
+              <td className="flex items-center gap-3 px-6 py-4">
                 <button
-                  onClick={() => removeFromCart(item._id)}
-                  className="text-red-600 hover:text-red-800"
+                  title="Increase Quantity"
+                  onClick={() => addToCart(id)}
+                  className="bg-green-600 hover:bg-green-800 text-white py-2 px-3 rounded-lg"
                 >
-                  ❌
+                  +
+                </button>
+                <button
+                  title={
+                    item.quantity > 1 ? 'Decrease Quantity' : 'Remove Item'
+                  }
+                  onClick={() => removeFromCart(item._id)}
+                  className="bg-red-600 hover:text-red-800 text-white py-2 px-3 rounded-lg"
+                >
+                  {item.quantity > 1 ? '-' : '❌'}
                 </button>
               </td>
             </tr>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const Footer = () => {
   return (
@@ -82,7 +82,9 @@ const Footer = () => {
 
       {/* Footer Bottom */}
       <div className="border-t border-gray-700 mt-8 pt-4 text-center text-gray-500">
-        <p>&copy; {new Date().getFullYear()} Foodie Delight. All Rights Reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} Foodie Delight. All Rights Reserved.
+        </p>
       </div>
     </footer>
   );

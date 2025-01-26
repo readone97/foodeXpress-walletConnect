@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const Hero = () => {
-  const [location, setLocation] = useState("");
-  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState('');
+  const [address, setAddress] = useState('');
 
   const handleGetLocation = () => {
     if (navigator.geolocation) {
@@ -20,18 +20,20 @@ const Hero = () => {
               alert(`Location detected: ${userAddress}`);
               // `userAddress` to the admin.
             } else {
-              alert("Unable to fetch address.");
+              alert('Unable to fetch address.');
             }
           } catch (error) {
-            console.error("Error fetching address:", error);
+            console.error('Error fetching address:', error);
           }
         },
         (error) => {
-          alert("Geolocation access denied. Please enter your location manually.");
+          alert(
+            'Geolocation access denied. Please enter your location manually.'
+          );
         }
       );
     } else {
-      alert("Geolocation is not supported by this browser.");
+      alert('Geolocation is not supported by this browser.');
     }
   };
 
@@ -41,7 +43,7 @@ const Hero = () => {
       alert(`Sending location to admin: ${userLocation}`);
       //  an API call to send `userLocation` to the admin. will get back to that
     } else {
-      alert("Please enter your location or allow geolocation.");
+      alert('Please enter your location or allow geolocation.');
     }
   };
 
@@ -52,20 +54,24 @@ const Hero = () => {
         className="absolute inset-0 -z-10"
         style={{
           backgroundImage: "url('/imageBg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.4)", // Darkens the image
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'brightness(0.4)', // Darkens the image
         }}
       ></div>
 
       {/* Content */}
       <div className="relative flex flex-col mt-9 justify-center w-[991px] h-[280px] z-10">
-        <p className="text-lg  m-auto text-white h-[36px] w-[488px] mb-8">Satisfy Your Cravings in Minutes With</p>
+        <p className="text-lg  m-auto text-white h-[36px] w-[488px] mb-8">
+          Satisfy Your Cravings in Minutes With
+        </p>
         <h1 className="text-5xl m-auto text-white h-[72px] w-[991px] font-bold mb-5">
-                Delicious Food from Restaurants Nearby
+          Delicious Food from Restaurants Nearby
         </h1>
         <p className="text-lg m-auto text-white h-[54px] w-[691px] mb-8">
-        Enjoy a seamless food delivery experience with our user-friendly platform, connecting you to the best local restaurants and fast delivery services.
+          Enjoy a seamless food delivery experience with our user-friendly
+          platform, connecting you to the best local restaurants and fast
+          delivery services.
         </p>
         <div className="flex flex-row m-auto items-center gap-0">
           <input
@@ -73,15 +79,14 @@ const Hero = () => {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Enter your location"
-            className="px-4 py-2 rounded outline-none w-72"
+            className="px-4 py-2 rounded-l outline-none w-72"
           />
           <button
             onClick={handleGetLocation}
-            className="bg-customYellow text-white px-6 py-2 rounded hover:bg-customYellow"
+            className="bg-customYellow text-white px-6 py-2 rounded-r hover:bg-customYellow"
           >
             Get My Location
           </button>
-        
         </div>
       </div>
     </div>
