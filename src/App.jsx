@@ -2,20 +2,8 @@ import { createAppKit } from '@reown/appkit/react';
 import React from 'react';
 import Navbar from './components/Navbar';
 
-import { WagmiProvider } from 'wagmi';
-//import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-//import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
-//import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-//import {
-// PhantomWalletAdapter,
-// SolflareWalletAdapter,
-//} from "@solana/wallet-adapter-wallets";
-//import { clusterApiUrl } from "@solana/web3.js";
-
-// Default styles for wallet modal
-//import "@solana/wallet-adapter-react-ui/styles.css";
-import { WalletProvider } from '@solana/wallet-adapter-react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { WagmiProvider } from 'wagmi';
 import Footer from './components/Footer';
 import {
   metadata,
@@ -48,21 +36,14 @@ createAppKit({
 });
 
 const App = () => {
-  //const network = WalletAdapterNetwork.Devnet; // Use Mainnet or Testnet as needed
-  //const endpoint = clusterApiUrl(network);
-
-  // Initialize wallets
-  //const wallets = [new PhantomWalletAdapter(), new SolflareWalletAdapter()];
-
   return (
     <StoreProvider>
       <WagmiProvider config={wagmiAdapter.wagmiConfig}>
-        {/* Your app components */}
         <div className="App">
           <BrowserRouter>
             <Navbar />
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route index element={<Home />} />
               <Route path="/cart" element={<Cart />} />
             </Routes>
             <Footer />

@@ -11,7 +11,7 @@ import { StoreContext } from '../Context/StoreContext';
 import { food_list } from '../mockDatabase';
 
 const Cart = () => {
-  const { cartItems, removeFromCart } = useContext(StoreContext);
+  const { cartItems, addToCart, removeFromCart } = useContext(StoreContext);
   const { address } = useAppKitAccount();
   const { connection } = useAppKitConnection();
   const { walletProvider } = useAppKitProvider('solana');
@@ -61,63 +61,121 @@ const Cart = () => {
     }
   };
 
+  if (cartDetails.length === 0) {
+    return (
+      <div className="min-h-dvh mt-20 flex flex-col items-center justify-center p-8">
+        <div className="text-center space-y-4 max-w-md mx-auto p-8 bg-white rounded-xl shadow-lg">
+          <h2 className="text-2xl font-bold text-gray-800">
+            Your cart is empty
+          </h2>
+          <p className="text-gray-600">
+            Add some delicious items to your cart!
+          </p>
+          <a
+            href="/#menu"
+            className="inline-block mt-4 px-6 py-3 bg-customYellow text-white rounded-lg
+                     hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300"
+          >
+            Browse Menu
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-dvh mt-20 px-4 py-8">
-      <h1 className="text-2xl font-bold text-center mb-6">Your Cart</h1>
-      <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <thead>
-          <tr className="bg-blue-600 text-white text-left">
-            <th className="px-6 py-4">#</th>
-            <th className="px-6 py-4">Image</th>
-            <th className="px-6 py-4">Description</th>
-            <th className="px-6 py-4">Quantity</th>
-            <th className="px-6 py-4">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cartDetails.map((item, index) => (
-            <tr key={item._id} className="border-b">
-              <td className="px-6 py-4">{index + 1}</td>
-              <td className="px-6 py-4">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-12 h-12 rounded-md"
-                />
-              </td>
-              <td className="px-6 py-4">{item.name}</td>
-              <td className="px-6 py-4">{item.quantity}</td>
-              <td className="flex items-center gap-3 px-6 py-4">
-                <button
-                  title="Increase Quantity"
-                  onClick={() => addToCart(id)}
-                  className="bg-green-600 hover:bg-green-800 text-white py-2 px-3 rounded-lg"
+    <div className="min-h-dvh mt-20 px-4 py-8 max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        Your Cart
+      </h1>
+
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="min-w-full">
+            <thead>
+              <tr className="bg-customYellow text-white">
+                <th className="px-6 py-4 text-left">#</th>
+                <th className="px-6 py-4 text-left">Item</th>
+                <th className="px-6 py-4 text-left">Price</th>
+                <th className="px-6 py-4 text-left">Quantity</th>
+                <th className="px-6 py-4 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {cartDetails.map((item, index) => (
+                <tr
+                  key={item._id}
+                  className="hover:bg-gray-50 transition-colors duration-200"
                 >
-                  +
-                </button>
-                <button
-                  title={
-                    item.quantity > 1 ? 'Decrease Quantity' : 'Remove Item'
-                  }
-                  onClick={() => removeFromCart(item._id)}
-                  className="bg-red-600 hover:text-red-800 text-white py-2 px-3 rounded-lg"
-                >
-                  {item.quantity > 1 ? '-' : '❌'}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="mt-6 flex flex-col items-end">
-        <h2 className="text-xl font-bold">Total: ${total.toFixed(2)}</h2>
-        <div className="mt-4 flex items-center gap-4">
-          <WalletMultiButton />
+                  <td className="px-6 py-4">{index + 1}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-16 h-16 rounded-lg object-cover"
+                      />
+                      <div>
+                        <h3 className="font-semibold text-gray-800">
+                          {item.name}
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          ${item.price.toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </td>
+                  <td className="px-6 py-4 font-semibold">{item.quantity}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => addToCart(item._id)}
+                        className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg
+                                 transition-all duration-200 hover:scale-105"
+                        title="Increase Quantity"
+                      >
+                        +
+                      </button>
+                      <button
+                        onClick={() => removeFromCart(item._id)}
+                        className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg
+                                 transition-all duration-200 hover:scale-105"
+                        title={
+                          item.quantity > 1
+                            ? 'Decrease Quantity'
+                            : 'Remove Item'
+                        }
+                      >
+                        {item.quantity > 1 ? '-' : '🗑️'}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="mt-8 bg-white rounded-xl shadow-lg p-6">
+        <div className="flex flex-col items-end gap-4">
+          <div className="text-right">
+            <p className="text-gray-600">Subtotal</p>
+            <p className="text-2xl font-bold text-customYellow">
+              ${total.toFixed(2)}
+            </p>
+          </div>
           <button
             onClick={handlePayment}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+            className="bg-customYellow text-white px-8 py-3 rounded-lg
+                     hover:bg-yellow-500 transform hover:scale-105 
+                     transition-all duration-300 font-semibold
+                     focus:ring-2 focus:ring-yellow-300 focus:outline-none"
           >
-            Pay Now
+            Proceed to Payment
           </button>
         </div>
       </div>

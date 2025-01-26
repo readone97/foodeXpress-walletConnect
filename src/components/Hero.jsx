@@ -58,7 +58,7 @@ const Hero = () => {
           backgroundPosition: 'center',
           filter: 'brightness(0.4)', // Darkens the image
         }}
-      ></div>
+      />
 
       {/* Content */}
       <div className="relative flex flex-col mt-9 justify-center w-[991px] h-[280px] z-10">
