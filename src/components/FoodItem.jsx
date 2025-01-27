@@ -19,7 +19,9 @@ const FoodItem = ({ id, name, description, price, image }) => {
         <h3 className="text-xl font-bold text-gray-800 group-hover:text-customYellow transition-colors duration-300">
           {name}
         </h3>
-        <p className="text-gray-600 text-sm line-clamp-2 h-12">{description}</p>
+        <p className="text-gray-600 text-sm line-clamp-4 text-ellipsis h-min">
+          {description}
+        </p>
         <p className="text-customYellow font-bold text-lg">
           ${price.toFixed(2)}
         </p>

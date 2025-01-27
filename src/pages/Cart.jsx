@@ -6,10 +6,10 @@ import {
   SystemProgram,
   Transaction,
 } from '@solana/web3.js';
+import { Report } from 'notiflix';
 import React, { useContext } from 'react';
 import { StoreContext } from '../Context/StoreContext';
 import { food_list } from '../mockDatabase';
-import { Report } from 'notiflix';
 
 const Cart = () => {
   const { cartItems, addToCart, removeFromCart, clearCart } =
@@ -120,7 +120,7 @@ const Cart = () => {
 
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full">
+          <table className="w-max table-fixed">
             <thead>
               <tr className="bg-customYellow text-white">
                 <th className="px-6 py-4 text-left">#</th>
@@ -138,13 +138,13 @@ const Cart = () => {
                 >
                   <td className="px-6 py-4">{index + 1}</td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center gap-4 max-w-full">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-16 h-16 rounded-lg object-cover"
+                        className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                       />
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <h3 className="font-semibold text-gray-800">
                           {item.name}
                         </h3>
