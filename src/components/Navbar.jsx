@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="fixed top-0 left-0 w-full flex justify-between text-white items-center p-5 bg-white bg-opacity-50 bg-cover backdrop-blur-lg z-50"
+      className="fixed top-0 left-0 w-full flex justify-between text-white items-center p-5 bg-white bg-opacity-50 bg-cover backdrop-blur-lg z-50 md:px-6 lg:px-8"
       style={{
         backgroundImage: "url('/Vector.png')",
       }}
@@ -80,16 +80,16 @@ const Navbar = () => {
       {/** mobile menu */}
 
       {isOpen && (
-        <div className="md:hidden flex flex-col space-x-9">
+        <div className="hidden flex flex-col space-x-9 md:px-6">
           <a
             href="#"
-            className="hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white"
+            className="hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white  md:inline text-sm md:text-base"
           >
             Home{' '}
           </a>
           <a
             href="#"
-            className="hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white"
+            className="hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white  md:inline text-sm md:text-base"
           >
             Menu
           </a>
@@ -101,7 +101,7 @@ const Navbar = () => {
           </Link>
           <a
             href="#"
-            className="hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white"
+            className="hover:border-b-2 border-solid border-customYellow w-6 h-6 text-white cursor-pointer"
           >
             Contact Us
           </a>
